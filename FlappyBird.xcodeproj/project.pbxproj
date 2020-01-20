@@ -13,6 +13,7 @@
 		CE8F248623D5F25C00149307 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE8F248423D5F25C00149307 /* Main.storyboard */; };
 		CE8F248823D5F26000149307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE8F248723D5F26000149307 /* Assets.xcassets */; };
 		CE8F248B23D5F26000149307 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE8F248923D5F26000149307 /* LaunchScreen.storyboard */; };
+		CE8F249323D5F61100149307 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8F249223D5F61100149307 /* GameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		CE8F248723D5F26000149307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE8F248A23D5F26000149307 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE8F248C23D5F26000149307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE8F249223D5F61100149307 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				CE8F247E23D5F25C00149307 /* AppDelegate.swift */,
 				CE8F248023D5F25C00149307 /* SceneDelegate.swift */,
+				CE8F249223D5F61100149307 /* GameScene.swift */,
 				CE8F248223D5F25C00149307 /* ViewController.swift */,
 				CE8F248423D5F25C00149307 /* Main.storyboard */,
 				CE8F248723D5F26000149307 /* Assets.xcassets */,
@@ -140,6 +143,7 @@
 			files = (
 				CE8F248323D5F25C00149307 /* ViewController.swift in Sources */,
 				CE8F247F23D5F25C00149307 /* AppDelegate.swift in Sources */,
+				CE8F249323D5F61100149307 /* GameScene.swift in Sources */,
 				CE8F248123D5F25C00149307 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,7 +297,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "bouka.tenken-gmail.com.FlappyBird";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -310,7 +314,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "bouka.tenken-gmail.com.FlappyBird";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
