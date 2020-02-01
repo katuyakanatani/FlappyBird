@@ -98,27 +98,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 userDefaults.set(bestScore, forKey: "BEST")
                 userDefaults.synchronize()
             }
+        } else if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory || (contact.bodyB.categoryBitMask & itemCategory) == itemCategory {
+             print("ScoreUp")
+             itemScore += 1
+             itemScoreLabelNode.text = "itemScore:\(itemScore)"
+             itemNode.removeAllChildren()
+             bird.speed = 1
+             scrollNode.speed = 1
+            
+            
             
         } else {
-            //かべか地面と衝突した
-            print("GameOver")
-            //スクロールていし
-            scrollNode.speed = 0
-            bird.physicsBody?.collisionBitMask = groundCategory
-            let roll = SKAction.rotate(byAngle: CGFloat(Double.pi) * CGFloat(bird.position.y) * 0.01, duration: 1)
-            bird.run(roll, completion:{
-                self.bird.speed = 0
-            })
+        //かべか地面と衝突した
+        print("GameOver")
+        //スクロールていし
+        scrollNode.speed = 0
+        bird.physicsBody?.collisionBitMask = groundCategory
+        let roll = SKAction.rotate(byAngle: CGFloat(Double.pi) * CGFloat(bird.position.y) * 0.01, duration: 1)
+        bird.run(roll, completion:{
+            self.bird.speed = 0
+        })
+       
         }
-        if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory || (contact.bodyB.categoryBitMask & itemCategory) == itemCategory {
-                                     itemScore += 1
-                           itemScoreLabelNode.text = "itemScore:\(itemScore)"
-            itemNode.removeAllChildren()
-            bird.speed = 1
-            scrollNode.speed = 1
-            
-        }
-          
     }
     func restart() {
         score = 0
