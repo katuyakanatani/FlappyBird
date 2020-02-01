@@ -11,7 +11,7 @@ import SpriteKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var scrollNode:SKNode!
     var wallNode:SKNode!   //壁
-    var itemNode:SKNode!   //item
+    var itemNode:SKNode! //item
     var bird:SKSpriteNode! //鳥
     //衝突判定のカテゴリー
     let birdCategory: UInt32 = 1 << 0    //0...00001
@@ -39,9 +39,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //壁用のノード
         wallNode = SKNode()
         scrollNode.addChild(wallNode)
-        //itemのノード
+        //item用のノード
         itemNode = SKNode()
-        addChild(itemNode)
+        scrollNode.addChild(itemNode)
         // 各種スプライトを生成する処理をメソッドに分割
         setupGround()
         setupCloud()
@@ -98,10 +98,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 userDefaults.set(bestScore, forKey: "BEST")
                 userDefaults.synchronize()
             }
-            if (contact.bodyA.categoryBitMask & scoreCategory) == scoreCategory || (contact.bodyB.categoryBitMask & scoreCategory) == scoreCategory {
-                                           score += 1
-                                 itemScoreLabelNode.text = "itemScore:\(itemScore)"
-              }
             
         } else {
             //かべか地面と衝突した
@@ -114,11 +110,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.bird.speed = 0
             })
         }
+        if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory || (contact.bodyB.categoryBitMask & itemCategory) == itemCategory {
+                                     itemScore += 1
+                           itemScoreLabelNode.text = "itemScore:\(itemScore)"
+            itemNode.removeAllChildren()
+            bird.speed = 1
+            scrollNode.speed = 1
+            
+        }
           
     }
     func restart() {
         score = 0
         scoreLabelNode.text = "Score:\(score)"
+        itemScore = 0
+        itemScoreLabelNode.text = "itemScore\(itemScore)"
         
         bird.position = CGPoint(x: self.frame.size.width * 0.2, y:self.frame.size.height * 0.7)
         bird.physicsBody?.velocity = CGVector.zero
@@ -126,6 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bird.zRotation = 0
         
         wallNode.removeAllChildren()
+        itemNode.removeAllChildren()
         bird.speed = 1
         scrollNode.speed = 1
     }
@@ -189,61 +196,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                //スプライトを追加する
                    scrollNode.addChild(sprite)
     }
-}
-    func setupItem() {
-        //アイテム画像を取得
-        let itemTexture = SKTexture(imageNamed: "item")
-        itemTexture.filteringMode = .linear
-        //スプライト作成
-        let itemSprite = SKSpriteNode(texture: itemTexture)
-        //移動する距離を計算
-        let movingDistance = CGFloat(self.frame.size.width + itemTexture.size().width * 2)
-        //画面外まで移動するアクションを作成
-        let moveItem = SKAction.moveBy(x: -movingDistance, y: 0, duration: 3)
-        //自身を取り除くアクションを作成
-        let removeItem = SKAction.removeFromParent()
-        //２つのアニメーションを順に実行するアクションを作成
-        let itemAnimation = SKAction.sequence([moveItem, removeItem])
-        //鳥の画像サイズを取得
-        let birdSize = SKTexture(imageNamed: "bird_a").size()
-        //itemのサイズを鳥の半分に
-        let itemSize = birdSize.height / 2
-        //itemの位置を鳥のサイズの５倍で
-        
-        //itemを生成するアクションを作成
-        let createItemAnimation = SKAction.run({
-            let random_y_range = birdSize.height * 5
-            //いちgime
-            let center_y = self.frame.size.height / 3
-            //ランダム値を設定
-            let random_y = CGFloat.random(in: 0..<random_y_range)
-            //床から
-            let random = center_y + random_y
-            
-             //item関連のノードを載せるノードを作成
-            let item = SKNode()
-                item.position = CGPoint(x: self.frame.size.width + itemTexture.size().width, y: 0)
-                  item.zPosition = 50 //手前
-            //item
-            let items = SKSpriteNode(texture: itemTexture)
-            items.position = CGPoint(x: 0, y: random)
-           //物理演算を追加
-            items.physicsBody = SKPhysicsBody(rectangleOf: itemTexture.size())
-            items.physicsBody?.categoryBitMask = self.scoreCategory
-            items.physicsBody?.contactTestBitMask = self.birdCategory
-            items.physicsBody?.isDynamic = false
-            item.addChild(items)
-            
-            item.run(itemAnimation)
-            self.itemNode.addChild(item)
-        })
-        
-        //次のitem作成までの時間待ちのアクションを作成
-           let waitAnimation = SKAction.wait(forDuration: 2)
-           //壁を作成ー＞時間待ちー＞壁を作成を無限に繰り返すアクションを作成
-           let repeatForeverAnimation = SKAction.repeatForever(SKAction.sequence([createItemAnimation, waitAnimation]))
-           
-           itemNode.run(repeatForeverAnimation)
     }
     
  func setupWall() {
@@ -318,6 +270,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     wallNode.run(repeatForeverAnimation)
 }
+    func setupItem() {
+          //アイテム画像を取得
+          let itemTexture = SKTexture(imageNamed: "item")
+          itemTexture.filteringMode = .linear
+        //移動する距離を計算
+          let movingDistance = CGFloat(self.frame.size.width * 3)
+        //画面外まで移動するアクションを作成
+          let moveItem = SKAction.moveBy(x: -movingDistance, y: 0, duration: 4)
+        //自身を取り除くアクションを作成
+          let removeItem = SKAction.removeFromParent()
+        //２つのアニメーションを順に実行するアクションを作成
+          let itemAnimation = SKAction.sequence([moveItem, removeItem])
+        
+        //itemを作成するアクションを作成
+        let createItemAnimation = SKAction.run({
+          //Nodeを作成
+          let item = SKNode()
+            item.position = CGPoint(x: self.frame.size.width + itemTexture.size().width, y: 0)
+            item.zPosition = 100
+            
+          //スプライト作成
+          let items = SKSpriteNode(texture: itemTexture)
+          //鳥の画像サイズを取得
+          let birdSize = SKTexture(imageNamed: "bird_a").size()
+          //itemの位置を鳥のサイズの５倍で
+          let random_y_range = birdSize.height * 5
+          //いちgime
+          let center_y = self.frame.size.height / 3
+          //ランダム値を設定
+          let random_y = CGFloat.random(in: 0..<random_y_range)
+          //床から
+          let random = center_y + random_y
+          items.position = CGPoint(x: self.frame.size.width + itemTexture.size().width , y: random)
+            
+            items.physicsBody = SKPhysicsBody(rectangleOf: itemTexture.size())
+            //スコアあっっぷ
+            items.physicsBody?.categoryBitMask = self.itemCategory
+            items.physicsBody?.contactTestBitMask = self.birdCategory
+            items.physicsBody?.affectedByGravity = false
+            items.physicsBody?.isDynamic = false
+            
+            
+            item.addChild(items)
+            
+            item.run(itemAnimation)
+            self.itemNode.addChild(item)
+          })
+          //次のitem作成までの時間待ちのアクションを作成
+            let waitAnimation = SKAction.wait(forDuration: 2)
+          //壁を作成ー＞時間待ちー＞壁を作成を無限に繰り返すアクションを作成
+            let repeatForeverAnimation = SKAction.repeatForever(SKAction.sequence([createItemAnimation, waitAnimation]))
+                    
+            itemNode.run(repeatForeverAnimation)
+       
+      }
+    
     func setupBird() {
         //鳥の画像を２種類読み込む
         let birdTextureA = SKTexture(imageNamed: "bird_a")
@@ -339,7 +347,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //当たった時のカテゴリー
         bird.physicsBody?.categoryBitMask = birdCategory
-        bird.physicsBody?.collisionBitMask = groundCategory | wallCategory
+        bird.physicsBody?.collisionBitMask = groundCategory | wallCategory | itemCategory
         bird.physicsBody?.contactTestBitMask = groundCategory | wallCategory | itemCategory
         //アニメーションを設定
         bird.run(flap)
