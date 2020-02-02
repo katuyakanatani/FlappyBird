@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE28ED6323E5C5E50087C9D4 /* itemSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE28ED6223E5C5E50087C9D4 /* itemSound.mp3 */; };
+		CE28ED6623E5CEEB0087C9D4 /* itemgetsec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE28ED6523E5CEEB0087C9D4 /* itemgetsec.mp3 */; };
 		CE8F247F23D5F25C00149307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8F247E23D5F25C00149307 /* AppDelegate.swift */; };
 		CE8F248123D5F25C00149307 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8F248023D5F25C00149307 /* SceneDelegate.swift */; };
 		CE8F248323D5F25C00149307 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8F248223D5F25C00149307 /* ViewController.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE28ED6223E5C5E50087C9D4 /* itemSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = itemSound.mp3; sourceTree = "<group>"; };
+		CE28ED6523E5CEEB0087C9D4 /* itemgetsec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = itemgetsec.mp3; sourceTree = "<group>"; };
 		CE8F247B23D5F25C00149307 /* FlappyBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlappyBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8F247E23D5F25C00149307 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE8F248023D5F25C00149307 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 				CE8F248723D5F26000149307 /* Assets.xcassets */,
 				CE8F248923D5F26000149307 /* LaunchScreen.storyboard */,
 				CE8F248C23D5F26000149307 /* Info.plist */,
+				CE28ED6223E5C5E50087C9D4 /* itemSound.mp3 */,
+				CE28ED6523E5CEEB0087C9D4 /* itemgetsec.mp3 */,
 			);
 			path = FlappyBird;
 			sourceTree = "<group>";
@@ -129,6 +135,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE8F248B23D5F26000149307 /* LaunchScreen.storyboard in Resources */,
+				CE28ED6323E5C5E50087C9D4 /* itemSound.mp3 in Resources */,
+				CE28ED6623E5CEEB0087C9D4 /* itemgetsec.mp3 in Resources */,
 				CE8F248823D5F26000149307 /* Assets.xcassets in Resources */,
 				CE8F248623D5F25C00149307 /* Main.storyboard in Resources */,
 			);

@@ -7,12 +7,17 @@
 //
 
 import SpriteKit
+import AVFoundation
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, AVAudioPlayerDelegate {
     var scrollNode:SKNode!
     var wallNode:SKNode!   //壁
     var itemNode:SKNode! //item
     var bird:SKSpriteNode! //鳥
+   //おと
+    var audioPlayer:AVAudioPlayer!
+    
+    
     //衝突判定のカテゴリー
     let birdCategory: UInt32 = 1 << 0    //0...00001
     let groundCategory: UInt32 = 1 << 1  //0...00010
@@ -49,6 +54,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupBird()
         setupItem()
         setupScoreLabel()
+        
+        //再生するaudioファイルのパスを作成
+        let audioPath = Bundle.main.path(forResource: "itemSound", ofType: "mp3")!
+        let audioUrl = URL(fileURLWithPath: audioPath)
+        //audioを再生するプレイヤーを作成する
+        var audioError:NSError?
+        do {
+        audioPlayer = try AVAudioPlayer(contentsOf: audioUrl)
+        } catch let error as NSError {
+        audioError = error
+        audioPlayer = nil
+        }
+        //エラーが起きた時
+        if let error = audioError {
+            print("Error\(error.localizedDescription)")
+        }
+        audioPlayer.delegate = self
+        audioPlayer.prepareToPlay()
     }
     
     func setupScoreLabel() {
@@ -105,6 +128,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
              itemNode.removeAllChildren()
              bird.speed = 1
              scrollNode.speed = 1
+            
+            //音源
+    
+            audioPlayer.play()
             
             
             
